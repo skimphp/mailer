@@ -1,0 +1,83 @@
+{
+  "name": "skim/mailer",
+  "description": "Symfony Mailer integration for SKIM applications.",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": "^8.5",
+    "skim/framework": "^0.1",
+    "symfony/mailer": "^7.0"
+  },
+  "require-dev": {
+    "pestphp/pest": "^3.0"
+  },
+  "suggest": {
+    "symfony/mailgun-mailer": "Mailgun transport",
+    "symfony/postmark-mailer": "Postmark transport",
+    "symfony/amazon-mailer": "AWS SES transport",
+    "symfony/sendgrid-mailer": "Sendgrid transport"
+  },
+  "autoload": {
+    "psr-4": {
+      "Skim\\Mailer\\": "src/"
+    }
+  },
+  "scripts": {
+    "test": "pest tests/**/*_test.php"
+  },
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  },
+  "extra": {
+    "skim": {
+      "extension": "Skim\\Mailer\\MailerExtension",
+      "provides": [
+        "mailer"
+      ],
+      "capabilities": {
+        "email": {
+          "drivers": [
+            "smtp",
+            "mailgun",
+            "postmark",
+            "ses",
+            "sendgrid",
+            "array"
+          ]
+        }
+      },
+      "commands": {
+        "mail:test": "Skim\\Mailer\\Cli\\MailTestCommand",
+        "mail:preview-test": "Skim\\Mailer\\Cli\\EtherealTestCommand"
+      },
+      "env": [
+        "MAIL_DRIVER",
+        "MAIL_FROM",
+        "MAIL_FROM_NAME",
+        "MAIL_HOST",
+        "MAIL_PORT",
+        "MAIL_ENCRYPTION",
+        "MAIL_USERNAME",
+        "MAIL_PASSWORD",
+        "ETHEREAL_USERNAME",
+        "ETHEREAL_PASSWORD",
+        "ETHEREAL_FROM",
+        "ETHEREAL_FROM_NAME",
+        "MAILGUN_KEY",
+        "MAILGUN_DOMAIN",
+        "POSTMARK_TOKEN",
+        "AWS_ACCESS_KEY_ID",
+        "AWS_SECRET_ACCESS_KEY",
+        "AWS_DEFAULT_REGION",
+        "SENDGRID_KEY"
+      ],
+      "post_install": [
+        "Edit config/skim_mailer.php to set your transport driver",
+        "Run: php skim mail:test you@example.com",
+        "Run: php skim mail:preview-test you@example.com to preview with Ethereal"
+      ]
+    }
+  }
+}

@@ -1,0 +1,20 @@
+#!/usr/bin/env php
+<?php declare(strict_types=1);
+
+define('SKIM_ROOT', dirname(__DIR__));
+
+require SKIM_ROOT . '/vendor/autoload.php';
+
+$env = is_file(SKIM_ROOT . '/.env.ethereal')
+    ? SKIM_ROOT . '/.env.ethereal'
+    : SKIM_ROOT . '/.env';
+
+\Skim\Core\Env::load($env);
+\Skim\Core\Config::load(SKIM_ROOT . '/config');
+
+$to = (string) ($argv[1] ?? '');
+
+$command = new \Skim\Mailer\Cli\EtherealTestCommand();
+$command->setInput([$to], []);
+
+exit($command->handle());
