@@ -28,7 +28,7 @@ final class MailerService {
     }
 
     public function to(string|array $address): Mailable {
-        return (new mailable())->to($address);
+        return (new Mailable())->to($address);
     }
 
     public function transport(): TransportInterface {
